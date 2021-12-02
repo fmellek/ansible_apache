@@ -12,7 +12,7 @@
     
     - name: Start and Enable Apache
       when: 
-        - install_apache_result is secceeded
+        - install_apache_result is succeeded
         - ansible_service_mgr == "systemd"
       systemd: 
         state: started
