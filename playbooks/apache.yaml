@@ -1,0 +1,20 @@
+---
+- name: Install Apache on Development Server
+  hosts: host1 
+  gather_facts: true
+  tasks:
+    - name: Install Apache
+      when: ansible_distribution == "CentOS"
+      yum:
+        name: httpd
+        state: latest
+      register: install_apache_result
+    
+    - name: Start and Enable Apache
+      when: 
+        - install_apache_result is secceeded
+        - ansible_service_mgr == "systemd"
+      systemd: 
+        state: started
+        name: httpd
+        enabled: yes 
