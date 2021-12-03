@@ -17,13 +17,15 @@
         owner: apache
         group: apache
         mode: '0644'
+      register: index_html
     
     - name: Start and Enable Apache
       when: 
-        - install_apache_result is succeeded
+       
         - ansible_service_mgr == "systemd"
+        - index_html is changed
       systemd: 
-        state: started
+        state: restarted
         name: httpd
         enabled: yes 
 
